@@ -1,0 +1,35 @@
+{% extends "onlyrevtext/base.html" %}
+{% load i18n %}
+
+{% block title %}{{category|capfirst}}{% endblock %}
+
+{% block body %}
+
+<h1>{{category|capfirst}}</h1>
+
+{% regroup object_list|dictsort:"character" by character as character_list %}
+  {% for character in character_list %}
+  <div class="sidebyside">
+  {% spaceless %}
+  <h2>{% ifequal character.grouper "S" %}Sam{% else %}Hailey{% endifequal %}
+  {% blocktrans count character.list|length as count %}
+  ({{count}} reference)
+  {% plural %}
+  ({{count}} references)
+  {% endblocktrans %}
+  </h2>
+  {% endspaceless %}
+  <ul>
+  	{% regroup character.list|dictsort:"page" by page as page_list %}
+	{% for page in page_list %}
+	  	{% for line in page.list|dictsort:"line" %}
+	    <li>
+		  <a href="{{ line.get_absolute_url }}">{{character.grouper}}/{{line.page}}</a> {{line.text|safe}} ({{line.type_text|safe}})
+		</li>
+		{% endfor %}
+	{% endfor %}
+  </ul>
+  </div>
+  {% endfor %}
+
+{% endblock %}

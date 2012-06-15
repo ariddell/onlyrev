@@ -1,0 +1,18 @@
+{% extends "onlyrevtext/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Pages" %}{% endblock %}
+
+{% block body %}
+
+{% regroup object_list|dictsort:"character" by character as char_list %}
+
+{% for chars in char_list %}
+	<h2 id="{{chars.grouper}}">{% ifequal chars.grouper "S" %}Sam{% else %}Hailey{% endifequal %}</h2>
+	{% regroup chars.list|dictsort:"page" by page as pages %}
+	{% for page in pages %}
+	<a href="{% url onlyrevtext_line_list character=chars.grouper,page=page.grouper %}">{{ page.grouper }}</a>{% if not forloop.last %},{% endif %}
+	{% endfor %}
+{% endfor %}
+
+{% endblock %}

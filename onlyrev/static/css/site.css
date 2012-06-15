@@ -1,0 +1,55 @@
+/* SITE-SPECIFIC STYLES */
+
+div.sidebyside {
+	float: left;
+	width: 390px;
+}
+
+.sidebyside ul {
+	padding-left: 0;
+}
+
+.sidebyside ul li {
+	list-style-type: none;
+}
+
+.highlight {
+	background: #FBE54E none repeat scroll 0 0;
+}
+
+table.line-list {
+    margin: 1em 1em 1em 0;
+    background: #f9f9f9;
+    border: none;
+    border-collapse: collapse;
+}
+.line-list th, .line-list td {
+    border: none;
+    padding: 0 2em 0 .1em;
+}
+.line-list th {
+    background: #f2f2f2;
+    text-align: center;
+}
+
+body.wiki table {
+    margin: 1em 1em 1em 0;
+    background: #f9f9f9;
+    border: 1px #aaa solid;
+    border-collapse: collapse;
+}
+
+body.wiki th, body.wiki td {
+    border: 1px #aaa solid;
+    padding: 0.2em;
+}
+
+body.wiki th {
+    background: #f2f2f2;
+    text-align: center;
+}
+
+body.wiki caption {
+    font-weight: bold;
+}
+

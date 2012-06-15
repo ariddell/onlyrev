@@ -1,0 +1,34 @@
+{% extends "onlyrevtext/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Locations" %}{% endblock %}
+
+{% block body %}
+<h1>{% trans "Locations in <em>Only Revolutions</em>" %}</h1>
+
+<p>
+  {% trans "See also:" %} <a href="{% url onlyrevtext_location_map %}">{% trans "Map of locations Sam and Hailey pass" %}</a>
+</p>
+
+{% regroup locations by line.character as characters %}
+
+{% for character in characters %}
+<div class="sidebyside">
+  <h2>{% ifequal character.grouper "S" %}Sam{% else %}Hailey{% endifequal %}</h2>
+  {% for l in character.list %}
+  	{% spaceless %}
+    <p id="location-{{l.id}}">
+    <img src="{{ STATIC_URL }}onlyrevtext/img/silk/icons/world.png" />&nbsp;{{l.words}}{% if l.words_annotated %} ({{l.words_annotated}}){% endif %}
+	{% if user.is_staff %}
+	  {% url admin:onlyrevtext_location_change l.id as editloc %}
+	  {% if editloc %}(<a href="{{ editloc }}">{% trans "edit location" %}</a>){% endif %}
+	{% endif %}
+	<small>(<a href="http://openlayers.org/viewer/?center={{l.lat}},{{l.lng}}&zoom=6">{% trans "view on map" %}</a>)</small>
+    <br />
+    <a href="{{ l.line.get_absolute_url }}">{{l.line.character}}/{{l.line.page}}</a>&nbsp;{{l.line.text|safe}}
+	</p>
+	{% endspaceless %}
+  {% endfor %}
+</div>
+{% endfor %}
+{% endblock %}

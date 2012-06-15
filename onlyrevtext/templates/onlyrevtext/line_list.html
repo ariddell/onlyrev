@@ -1,0 +1,89 @@
+{% extends "onlyrevtext/base.html" %}
+{% load i18n %}
+{% load onlyrevtext %}
+
+{% block title %}{% spaceless %}
+	{% with object_list|first as firstline %}
+		{{firstline.character_full|capfirst}} {% trans "page" %} {{firstline.page}} ({{firstline.date}})
+	{% endwith %}
+{% endspaceless %}{% endblock %}
+
+{% block body %}
+
+{% with object_list|first as firstline %}
+
+<div class="nextprev">
+		{% if prevpage %}
+      <a href="{% url onlyrevtext_line_list character=firstline.character,page=prevpage %}">{% trans "Previous" %}</a> |
+		{% else %}{% trans "Previous" %} |
+		{% endif %}
+		{% if nextpage %}
+			<a href="{% url onlyrevtext_line_list character=firstline.character,page=nextpage %}">{% trans "Next" %}</a>
+		{% endif %}
+</div>
+
+{% url page_list character=firstline.character as pageurl %}
+	<h1><a href="{{ pageurl }}">{{firstline.character_full|capfirst}}</a>
+	{% trans "page" %} {{firstline.page}}
+	<span class="quiet">({{firstline.date}})</span></h1>
+{% endwith %}
+
+{% regroup object_list by page as page_list %}
+
+<table class="line-list">
+{% for main, sidebar in paired_lines %}
+<tr>
+	<td><small>{% render_line sidebar %}</small></td>
+	<td>
+      {% render_line main %}
+    </td>
+	<td>{% if main %}({{main.line}}){% endif %}</td>
+</tr>
+{% endfor %}
+</table>
+
+<hr />
+
+{% if types %}
+	<h3>{% trans "Categories mentioned" %}</h3>
+	<ul>
+	{% for t in types %}
+	  {% url onlyrevtext_category_list t.type as categoryurl %}
+	  <li>{{t.type_text|safe}}, <a href="{{ categoryurl }}">{% trans t.type %}</a> ({% trans "line" %} {{ t.line }})</li>
+	{% endfor %}
+	</ul>
+{% endif %}
+
+{% if locations %}
+	{% spaceless %}
+	{% url onlyrevtext_location_list as locationurl %}
+	<h3>
+		{% blocktrans %}<a href="{{ locationurl }}">Locations</a> mentioned{% endblocktrans %}
+	</h3>
+	{% endspaceless %}
+	{% for l in locations %}
+		<p>
+    <img src="{{ STATIC_URL }}onlyrevtext/img/silk/icons/world.png" />&nbsp;<a href="{{l.get_absolute_url}}#location-{{l.id}}">{{l.words}}</a> {% if l.words_annotated %} ({{l.words_annotated}}){% endif %}
+		{% if user.is_staff %}
+			{% url admin:onlyrevtext_location_change l.id as editloc %}
+			{% if editloc %}(<a href="{{ editloc }}">edit location</a>){% endif %}
+		{% endif %}
+		</p>
+	{% endfor %}
+{% endif %}
+
+<hr />
+
+<div class="nextprev">
+	{% with object_list|first as firstline %}
+		{% if prevpage %}
+			<a href="{% url onlyrevtext_line_list character=firstline.character,page=prevpage %}">{% trans "Previous" %}</a> |
+		{% else %}{% trans "Previous" %} |
+		{% endif %}
+		{% if nextpage %}
+			<a href="{% url onlyrevtext_line_list character=firstline.character,page=nextpage %}">{% trans "Next" %}</a>
+		{% endif %}
+	{% endwith %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,19 @@
+{% autoescape off %}
+<Placemark>
+  <name>{{location.line.character}}/{{location.line.page}}: {{location.words}}</name>
+  <styleUrl>#{{location.line.character}}</styleUrl>
+  <description>
+    <![CDATA[
+    <div dir="ltr">
+    <p>{{location.line.character}}/{{location.line.page}} ({{location.line.date}})</p>
+    <p>
+    <a href="{{location.line.get_absolute_url}}">{{location.line.text}}</a>{% if location.words_annotated %} ({{location.words_annotated}}){% endif %}
+    </p>
+    </div>
+    ]]>
+  </description>
+  <Point>
+    <coordinates>{{location.lng}},{{location.lat}},0</coordinates>
+  </Point>
+</Placemark>
+{% endautoescape %}

@@ -1,0 +1,107 @@
+{% load i18n %}
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+<title>{% trans "Map of Only Revolutions" %}</title>
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key={{apikey}}" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}onlyrevtext/js/jquery-1.4.1.min.js" type="text/javascript"></script>
+<!-- Make the document body take up the full screen -->
+<style type="text/css">
+  html, body {width: 100%; height: 100%}
+  body {margin-top: 0px; margin-right: 0px; margin-left: 0px; margin-bottom: 0px}
+</style>
+
+<script type="text/javascript">
+var map;
+var layers = {
+		 "sam_lines":
+		 {"url": "http://{{domain}}{% url onlyrevtext_location_kml %}?char=S&type=path",
+		  "name": "{% trans "Sam's Path" %}",
+		  "zoom": 4,
+		  "lat": 36.87962060502676,
+		  "lng": -89.208984375},
+		 "hailey_lines":
+		 {"url": "http://{{domain}}{% url onlyrevtext_location_kml %}?char=H&type=path",
+		  "name": "{% trans "Hailey's Path" %}",
+		  "zoom": 4,
+		  "lat": 36.87962060502676,
+		  "lng": -89.208984375}
+		};
+
+$(document).ready(function() {
+
+	    map = new GMap2(document.getElementById("map"));
+	    map.setCenter(new GLatLng(36.87962060502676, -89.208984375), 4);
+	    map.setUIToDefault();
+	    map.addControl(new GLargeMapControl());
+
+	    for(var layer in layers) {
+		    addTR(layer, layers[layer].name);
+	    }
+
+
+		// Monitor the window resize event and let the map know when it occurs
+	    if (window.attachEvent) {
+		    window.attachEvent("onresize", function() {this.map.onResize()} );
+	    } else {
+		    window.addEventListener("resize", function() {this.map.onResize()} , false);
+	    }
+
+})
+
+function addTR(id) {
+		var layerTR = document.createElement("tr");
+		var inputTD = document.createElement("td");
+		var input = document.createElement("input");
+		input.type = "checkbox";
+		input.id = id;
+		input.onclick = function () { toggleGeoXML(this.id, this.checked) };
+		inputTD.appendChild(input);
+
+		var nameTD = document.createElement("td");
+		var nameA = document.createElement("a");
+		nameA.href = layers[id].url;
+		var name = document.createTextNode(layers[id].name);
+		nameA.appendChild(name);
+		nameTD.appendChild(nameA);
+
+		layerTR.appendChild(inputTD);
+		layerTR.appendChild(nameTD);
+		document.getElementById("sidebarTBODY").appendChild(layerTR);
+}
+
+function toggleGeoXML(id, checked) {
+		if (checked) {
+		    var geoXml = new GGeoXml(layers[id].url);
+		    layers[id].geoXml = geoXml;
+
+		    if (layers[id].zoom) {
+		      map.setZoom(layers[id].zoom);
+		      map.setZoom(layers[id].zoom);
+		    } else {
+		      map.setZoom(1);
+		    }
+		    if (layers[id].lat && layers[id].lng) {
+		      map.setCenter(new GLatLng(layers[id].lat, layers[id].lng));
+		    } else {
+		      map.setCenter(new GLatLng(39.909736,-35.859375));
+		    }
+		    map.addOverlay(geoXml);
+		  } else if (layers[id].geoXml) {
+		    map.removeOverlay(layers[id].geoXml);
+		  }
+}
+
+</script>
+</head>
+<body>
+	<div id="map" style="width: 100%; height: 100%;">map loading...</div>
+    <div id="sidebar" style="top:25px; right:25px; position:absolute; background-color:white; border:2px solid black;">
+    <h2>Layers:</h2>
+    	<table id="sidebarTABLE">
+    		<tbody id="sidebarTBODY">
+    		</tbody>
+    	</table>
+    </div>
+</body>
+</html>

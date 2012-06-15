@@ -1,0 +1,62 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Only Revolutions Commentary" %}{% endblock %}
+
+{% block tab_id %}id="home_tab"{% endblock %}
+
+{% block body %}
+    <img style="height: 300px; padding: 0 0 5px 5px; float: right;" src="{{ STATIC_URL }}img/hardcover_cover.jpg" />
+    <h1>{% trans "Only Revolutions Commentary" %}</h1>
+    <p>
+    </p>
+    <p>
+        {% blocktrans %}
+        <a href="http://www.onlyrevolutions.com/"><em>Only Revolutions</em></a> is a novel by
+        <a href="http://en.wikipedia.org/wiki/Mark_Z._Danielewski">Mark Z. Danielewski</a> published in
+        2006. The novel contains the two separate but intertwined narratives of Sam and Hailey.
+        This site provides a commentary on the novel.
+    </p>
+    <p>
+        <em>Only Revolutions</em> has been translated into French by Claro under the title
+        <a href="http://www.denoel.fr/Denoel/Control.go?action=rech&prod_code=B25903"><em>O Révolutions</em></a>
+        (2007) and into Dutch by Karina van Santen as <a href="http://www.debezigebij.nl/web/Boek-5.htm?dbid=23537&typeofpage=139647"><em>Omwentelingen</em></a> (2009).
+        {% endblocktrans %}
+    </p>
+
+    <h2>{% trans "Features" %}</h2>
+    <p>
+        <ul>
+        <li><a href="{% url poster %}">{% trans "Spoiler poster from <em>Revue inculte #14</em>" %}</a></li>
+        <li><a href="{% url endpapers %}">{% trans "Endpapers (image flipped for easier reading)" %}</a></li>
+        {% comment %}
+        <li><a href="{% url wiki_index %}">{% trans "Wiki articles" %}</a></li>
+        {% endcomment %}
+        <li><a href="{% url onlyrevtext_location_list %}">{% trans "List of locations Sam and Hailey pass" %}</a></li>
+        <li><a href="{% url onlyrevtext_location_map %}">{% trans "Map of locations Sam and Hailey pass" %}</a></li>
+        </ul>
+
+        <ul>
+        <li><a href="{% url onlyrevtext_category_list "animal" %}">{% trans "Animals" %}</a></li>
+        <li><a href="{% url onlyrevtext_category_list "plant" %}">{% trans "Plants" %}</a></li>
+        <li><a href="{% url onlyrevtext_category_list "mineral" %}">{% trans "Minerals" %}</a></li>
+        <li><a href="{% url onlyrevtext_category_list "car" %}">{% trans "Cars" %}</a></li>
+        </ul>
+    </p>
+    <h2>{% trans "Search <em>Only Revolutions</em>" %}</h2>
+    <p>
+        <form action="{% url onlyrevtext_search %}" method="get">
+            <input type="text" name="q">
+            <input type="submit" value="{% trans "Search" %}">
+        </form>
+    </p>
+    <p>
+    {% url onlyrevtext_search as searchurl%}
+    {% blocktrans %}
+    Example searches: <a href="{{ searchurl }}?q=creep">creep</a>, <a href="{{ searchurl }}?q=leftwrist">leftwrist</a>,
+    <a href="{{ searchurl }}?q=hope">hope</a>
+    {% endblocktrans %}
+    </p>
+
+{% endblock %}

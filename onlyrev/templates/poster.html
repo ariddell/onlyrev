@@ -1,0 +1,32 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Only Revolutions Spoiler Poster" %}{% endblock %}
+
+{% block tab_id %}id="home_tab"{% endblock %}
+
+{% block body %}
+    <h1>{% trans "<em>Only Revolutions</em> Spoiler Poster" %}</h1>
+    <p>
+    </p>
+    <p>
+    {% comment %}
+    <a href="http://www.inculte.fr/Revue-inculte-14">
+    	<img style="height: 300px; padding: 0 0 5px 5px; float: right;" src="{{ STATIC_URL }}img/inculte14_cover.jpg" />
+    </a>
+    {% endcomment %}
+        {% blocktrans %}
+        "A Spoiler" was published in <a href="http://www.inculte.fr/Revue-inculte-14"><em>Revue inculte #14</em></a>.
+        Click on the poster to view a larger version.
+        {% endblocktrans %}
+	</p>
+	<br class="clearboth" />
+	<a href="http://www.duke.edu/~abr10/onlyrev/onlyrevolutions_spoiler_poster_1of2.jpg">
+		<img style="padding: 0;" src="{{ STATIC_URL }}img/onlyrevolutions_spoiler_poster_1of2_small.png" />
+	</a>
+	<br class="clearboth" />
+	<a href="http://www.duke.edu/~abr10/onlyrev/onlyrevolutions_spoiler_poster_2of2.jpg">
+		<img style="padding: 0; margin-top: -4px;" src="{{ STATIC_URL }}img/onlyrevolutions_spoiler_poster_2of2_small.png" />
+	</a>
+{% endblock %}

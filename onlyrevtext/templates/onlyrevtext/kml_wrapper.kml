@@ -1,0 +1,58 @@
+{% autoescape off %}
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+<name>{{title}}</name>
+
+<Style id="Hline">
+<LineStyle>
+  <color>99eaea00</color>
+  <width>3</width>
+</LineStyle>
+</Style>
+
+<Style id="Sline">
+<LineStyle>
+  <color>99407f40</color>
+  <width>3</width>
+</LineStyle>
+</Style>
+
+<Style id="H">
+<IconStyle>
+  <color>99eaea00</color>
+  <colorMode>normal</colorMode> 
+  <Icon>
+    <href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+    <scale>1.0</scale>
+  </Icon> 
+</IconStyle>
+<LabelStyle>
+  <color>99eaea00</color> 
+  <colorMode>normal</colorMode> 
+  <scale>1.0</scale> 
+</LabelStyle> 
+</Style>
+
+<Style id="S">
+<IconStyle>
+  <color>99407f40</color>
+  <Icon>
+    <href>http://maps.google.com/mapfiles/kml/pushpin/grn-pushpin.png</href>
+    <scale>1.0</scale>
+  </Icon>
+</IconStyle>
+<LabelStyle> 
+  <color>99407f40</color> 
+  <colorMode>normal</colorMode> 
+  <scale>1.0</scale> 
+</LabelStyle> 
+</Style>
+
+
+{{kml}}
+
+
+</Document>
+</kml>
+{% endautoescape %}

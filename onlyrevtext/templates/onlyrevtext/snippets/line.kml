@@ -1,0 +1,27 @@
+{% load i18n %}
+{% autoescape off %}
+{% for start, end in location_pairs %}
+<Placemark>
+<name>{{start.words}} {% trans "to" %} {{end.words}}</name>
+<description>
+<![CDATA[
+  <div dir="ltr">
+  <p>{{start.line.character}}/{{start.line.page}} ({{start.line.date}})</p>
+  <p><a href="{{start.line.get_absolute_url}}">{{start.line.text}}</a></p>
+  <p>{% trans "to" %}</p>
+  <p><a href="{{end.line.get_absolute_url}}">{{end.line.text}}</a></p>
+  </div>
+]]>
+</description>
+<styleUrl>#{{start.line.character}}line</styleUrl>
+<LineString>
+  <tessellate>1</tessellate>
+  <coordinates>
+    {{start.lng}},{{start.lat}},0
+    {{end.lng}},{{end.lat}},0
+  </coordinates>
+</LineString>
+</Placemark>
+
+{% endfor %}
+{% endautoescape %}

@@ -1,0 +1,10 @@
+{% load i18n %}
+{% spaceless %}
+<span class="onlyrevtext-line">
+	{{line.text|safe}}
+	{% if user.is_staff %}
+	{% url admin:onlyrevtext_line_change line.id as editline %}
+	{% if editline %}(<a href="{{ editline }}">{% trans "edit" %}</a>){% endif %}
+	{% endif %}
+</span>
+{% endspaceless %}

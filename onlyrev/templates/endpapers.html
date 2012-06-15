@@ -1,0 +1,23 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Endpapers from Only Revolutions (flipped)" %}{% endblock %}
+
+{% block tab_id %}id="home_tab"{% endblock %}
+
+{% block body %}
+    <h1>{% trans "Endpapers <em>Only Revolutions</em> (flipped)" %}</h1>
+    <p>
+    </p>
+    <p>
+        {% blocktrans %}
+        Endpapers (flipped horizontally) taken from the Hailey side of <em>Only Revolutions</em>.
+        Click on the image to view a larger version.
+        {% endblocktrans %}
+	</p>
+	<br class="clearboth" />
+	<a href="http://www.duke.edu/~abr10/onlyrev/endpapers_flipped.jpg">
+		<img style="padding: 0;" src="{{ STATIC_URL }}img/endpapers_flipped_small.png" />
+	</a>
+{% endblock %}

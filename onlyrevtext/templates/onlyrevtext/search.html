@@ -1,0 +1,65 @@
+{% extends "onlyrevtext/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Search" %}{% endblock %}
+{% block body_class %}search{% endblock %}
+{% block tab_id %}id="tab_search"{% endblock %}
+{% block body %}
+<h1>{% trans "Search" %}</h1>
+<form action="." method="get">
+  <input type="text" name="q"{% if query %} value="{{query}}"{% endif %}>
+  <input type="submit" value="{% trans "Search Only Revolutions" %}">
+</form>
+
+{% if query %}
+  <h3>{% blocktrans %}Results for query "{{query}}"{% endblocktrans %}</h3>
+  {% regroup results|dictsort:"section" by section as section_list %}
+  {% for section in section_list %}
+    {% regroup section.list|dictsort:"character" by character as character_list %}
+    {% for character in character_list %}
+	  {% if section.grouper == "sidebar" and character.grouper == "H" %}<br class="clearboth" />{% endif %}
+	    <div class="sidebyside">
+		{% ifequal section.grouper "main" %}
+		  {% spaceless %}
+		  <h2>{% ifequal character.grouper "S" %}Sam{% else %}Hailey{% endifequal %}
+		  {% blocktrans count character.list|length as count %}
+		  ({{count}} reference)
+		  {% plural %}
+		  ({{count}} references)
+		  {% endblocktrans %}
+		  </h2>
+		  {% endspaceless %}
+		{% endifequal %}
+     	{% ifequal section.grouper "sidebar" %}
+		  {% spaceless %}
+		  <h4>{% ifequal character.grouper "S" %}Sam{% else %}Hailey{% endifequal %}
+		  {% trans "chronology" %}
+		  {% blocktrans count character.list|length as count %}
+		  ({{count}} reference)
+		  {% plural %}
+		  ({{count}} references)
+		  {% endblocktrans %}
+		  </h4>
+		  {% endspaceless %}
+		{% endifequal %}
+		<ul>
+		{% for line in character.list|dictsort:"page" %}
+		  <li><a href="{{ line.get_absolute_url }}">{{character.grouper}}/{{line.page}}</a> {{line.text|safe}}</li>
+		{% endfor %}
+		</ul>
+		</div>
+	{% endfor %}
+    {% empty %}
+    <p>{% trans "No results found." %}</p>
+  {% endfor %}
+{% else %}
+   {# Show some example queries to run, maybe query syntax, something else? #}
+   <p>
+   {% url onlyrevtext_search as searchurl%}
+   {% blocktrans %}
+   Example searches: <a href="{{ searchurl }}?q=creep">creep</a>, <a href="{{ searchurl }}?q=leftwrist">leftwrist</a>,
+   <a href="{{ searchurl }}?q=hope">hope</a>
+   {% endblocktrans %}
+   </p>
+{% endif %}
+{% endblock %}
