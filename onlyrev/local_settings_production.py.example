@@ -1,0 +1,36 @@
+# -*- coding: utf-8 -*-
+# local_settings_production.py.example
+
+FORCE_SCRIPT_NAME = '/myprojectname'
+
+# Make this unique, and don't share it with anybody.
+# NB: generate a new secret key, this one is in the repository
+SECRET_KEY = 'n-7+(8b(q4thzwl1fuko2q8q)06%z)f*rnwz)#ze^gkvvow(h9'
+
+STATIC_URL = '/myprojectname/static/'
+STATIC_ROOT = '/home/xyz/webapps/myprojectname_static'
+
+DEBUG = False
+
+ADMINS = [
+    ("Admin User", "xyz@myprojectname.info"),
+]
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "xyz_myprojectname",
+        "USER": "xyz_myprojectname",
+        "PASSWORD": "xxxxxxxx",
+        "HOST": "",
+        "PORT": "",
+    }
+}
+
+EMAIL_HOST='smtp.webfaction.com'
+EMAIL_HOST_USER='xyz_myprojectname'
+EMAIL_HOST_PASSWORD='xxxxxxxx'
+EMAIL_PORT='25'
+DEFAULT_FROM_EMAIL = "contact@myprojectname.info"
+SERVER_EMAIL = "contact@myprojectname.info"
+CONTACT_EMAIL = "contact@myprojectname.info"
