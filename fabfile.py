@@ -90,7 +90,11 @@ def run_setup_apache():
                                                 fab_settings.DJANGO_APP_NAME)):
         sed('httpd.conf', 'myproject/wsgi.py', '{0}/wsgi.py'.format(
                                                 fab_settings.PROJECT_NAME))
-
+        sed('httpd.conf', 'python-path=.*$',
+            '&:/home/{0}/.virtualenvs/{1}/lib/python2.7:'
+            '/home/{0}/.virtualenvs/{1}/lib/python2.7/site-packages'.format(
+                                                fab_settings.ENV_USER,
+                                                fab_settings.VENV_NAME))
 ###############################################################################
 # REMOTE TASKS
 ###############################################################################
@@ -125,8 +129,8 @@ def run_delete_previous_attempts():
 def run_create_project_virtualenv():
     with cd('$HOME'):
         run('rm -rf $HOME/.virtualenvs/{0}'.format(fab_settings.VENV_NAME))
-        run('mkvirtualenv -p python2.7 --system-site-packages {0}'.format(
-            fab_settings.VENV_NAME))
+        run('mkvirtualenv -p python2.7 --no-site-packages'
+            ' --distribute {0}'.format(fab_settings.VENV_NAME))
 
 def run_create_project_repo():
     with cd('$HOME/webapps/{0}'.format(fab_settings.DJANGO_APP_NAME)):
@@ -134,9 +138,10 @@ def run_create_project_repo():
             fab_settings.GIT_REPO_NAME))
 
 def run_install_requirements():
-    run('workon {0} && pip install -r $HOME/webapps/{1}/myproject/'
-        'requirements.txt --upgrade'.format(fab_settings.VENV_NAME,
-                           fab_settings.DJANGO_APP_NAME))
+    with cd('$HOME/webapps/{0}'.format(fab_settings.DJANGO_APP_NAME)):
+        run('workon {0} && pip install -r $HOME/webapps/{1}/myproject/'
+            'requirements.txt --upgrade'.format(fab_settings.VENV_NAME,
+                            fab_settings.DJANGO_APP_NAME))
 
 def run_deploy_website(syncdb=False):
     with cd('$HOME/webapps/{0}/myproject'.format(fab_settings.DJANGO_APP_NAME)):
