@@ -47,6 +47,11 @@ $(document).ready(function() {
 		    window.addEventListener("resize", function() {this.map.onResize()} , false);
 	    }
 
+        toggleGeoXML("hailey_lines",true);
+        document.getElementById("hailey_lines").checked = true;
+        toggleGeoXML("sam_lines",true);
+        document.getElementById("sam_lines").checked = true;
+
 })
 
 function addTR(id) {
@@ -60,7 +65,6 @@ function addTR(id) {
 
 		var nameTD = document.createElement("td");
 		var nameA = document.createElement("a");
-		nameA.href = layers[id].url;
 		var name = document.createTextNode(layers[id].name);
 		nameA.appendChild(name);
 		nameTD.appendChild(nameA);
