@@ -1,6 +1,4 @@
 Django==1.4
-creole==1.2
 PIL==1.1.7
--e git://github.com/eldarion/biblion.git#egg=biblion
--e git://github.com/ariddell/django-hitcount.git#egg=django-hitcount
 psycopg2==2.4.5
+-e git://github.com/ariddell/django-hitcount.git#egg=django-hitcount
