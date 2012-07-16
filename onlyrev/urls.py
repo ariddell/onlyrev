@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     url(r'^text/', include('onlyrevtext.urls')),
     url(r'^admin-39f9k/', include(admin.site.urls)),
     url(r'^poster/$', direct_to_template, {'template': 'poster.html'}, name='poster'),
+    url(r'^nixlist/$', direct_to_template, {'template': 'nixlist.html'}, name='nixlist'),
     url(r'^endpapers$', direct_to_template, {'template': 'endpapers.html'}, name='endpapers'),
 )
 
